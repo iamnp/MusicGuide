@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Music Guide</string>
+    <string name="title_singer_detail">Singer Detail</string>
+    <string name="album">альбом</string>
+    <string name="albums1">альбома</string>
+    <string name="albums2">альбомов</string>
+    <string name="song">песня</string>
+    <string name="songs1">песни</string>
+    <string name="songs2">песен</string>
+</resources>
