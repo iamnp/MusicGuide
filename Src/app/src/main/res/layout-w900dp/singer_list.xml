@@ -17,18 +17,28 @@
     
     -->
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:context="iamnp.musicguide.SingerListActivity"
+        android:id="@+id/swipe">
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/singer_list"
         android:name="iamnp.musicguide.SingerListFragment"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="iamnp.musicguide.SingerListActivity"
         tools:listitem="@layout/singer_list_content" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ScrollView
         android:layout_width="0dp"

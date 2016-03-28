@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 public class Singer {
-    public String id;
+    public long id;
     public String name;
     public String[] genres;
     public int tracks;

@@ -41,11 +41,12 @@ public class SingerDetailFragment extends Fragment {
     }
 
     private CollapsingToolbarLayout appBarLayout;
+    private SingersDb singersDb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        singersDb = new SingersDb(this.getContext());
     }
 
     @Override
@@ -56,12 +57,12 @@ public class SingerDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = SingerListActivity.singers.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = singersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.id);
+                appBarLayout.setTitle("" + mItem.id);
                 Picasso.with(this.getContext()).load(mItem.cover.big).into(((ImageView) appBarLayout.findViewById(R.id.detail_imageView)));
             } else {
                 twoPane = true;

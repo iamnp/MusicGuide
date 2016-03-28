@@ -3,6 +3,7 @@ package iamnp.musicguide;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,12 +49,17 @@ public class SingerListActivity extends AppCompatActivity {
             .build();
     private YandexSingersApi api = retrofit.create(YandexSingersApi.class);
     private RecyclerView recyclerView;
-    public static HashMap<String, Singer> singers = new HashMap<>();
+    private SingersDb singersDb;
+    private SwipeRefreshLayout swipeView;
+    private List<Singer> singers = new ArrayList<Singer>();
+    private SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(singers);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singer_list);
+
+        singersDb = new SingersDb(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,23 +84,51 @@ public class SingerListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        LoadData();
+        swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                LoadDataIntoDb();
+            }
+        });
+        adapter.setHasStableIds(true);
+        recyclerView.setAdapter(adapter);
+        ShowDataFromDb();
+        LoadDataIntoDb();
     }
 
-    private void LoadData() {
+    private void ShowDataFromDb() {
+        singers.clear();
+        singers.addAll(singersDb.getAllSingers(0, 10));
+        adapter.notifyDataSetChanged();
+    }
+
+    private void LoadDataIntoDb() {
         api.getSingers().enqueue(new Callback<List<Singer>>() {
             @Override
-            public void onResponse(Call<List<Singer>> call, Response<List<Singer>> response) {
-                singers.clear();
-                for (Singer s : response.body()) {
-                    singers.put(s.id, s);
-                }
-                recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(response.body()));
+            public void onResponse(Call<List<Singer>> call, final Response<List<Singer>> response) {
+
+                new Thread() {
+                    public void run() {
+                        singersDb.deleteAllSingers();
+                        for (Singer s : response.body()) {
+                            singersDb.addSinger(s);
+                        }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    swipeView.setRefreshing(false);
+                                    ShowDataFromDb();
+                                }
+                            });
+                    }
+                }.start();
             }
 
             @Override
             public void onFailure(Call<List<Singer>> call, Throwable t) {
-
+                swipeView.setRefreshing(false);
             }
         });
     }
@@ -115,6 +150,11 @@ public class SingerListActivity extends AppCompatActivity {
         }
 
         @Override
+        public long getItemId(int position) {
+            return mValues.get(position).id;
+        }
+
+        @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mNameView.setText(mValues.get(position).name);
@@ -127,7 +167,7 @@ public class SingerListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putLong(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         SingerDetailFragment fragment = new SingerDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
