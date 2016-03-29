@@ -7,4 +7,5 @@
     <string name="song">песня</string>
     <string name="songs1">песни</string>
     <string name="songs2">песен</string>
+    <string name="action_search">Поиск</string>
 </resources>

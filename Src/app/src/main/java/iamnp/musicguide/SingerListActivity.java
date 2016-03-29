@@ -3,14 +3,18 @@ package iamnp.musicguide;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,32 +29,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-/**
- * An activity representing a list of Singers. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link SingerDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
-public class SingerListActivity extends AppCompatActivity {
+public class SingerListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
+    private boolean twoPane;
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://cache-default06h.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     private YandexSingersApi api = retrofit.create(YandexSingersApi.class);
-    private RecyclerView recyclerView;
     private SingersDb singersDb;
+
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeView;
+
     private List<Singer> singers = new ArrayList<Singer>();
     private SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(singers);
 
@@ -74,33 +67,29 @@ public class SingerListActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView)findViewById(R.id.singer_list);
-
         if (findViewById(R.id.singer_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
+            twoPane = true;
         }
 
         swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                swipeView.setRefreshing(true);
                 LoadDataIntoDb();
             }
         });
+
+        recyclerView = (RecyclerView)findViewById(R.id.singer_list);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
-        ShowDataFromDb();
+
+        ShowDataFromDb(null);
         LoadDataIntoDb();
     }
 
-    private void ShowDataFromDb() {
+    private void ShowDataFromDb(List<Singer> s) {
         singers.clear();
-        singers.addAll(singersDb.getAllSingers(0, 10));
+        singers.addAll(s == null ? singersDb.getAllSingers() : s);
         adapter.notifyDataSetChanged();
     }
 
@@ -108,20 +97,19 @@ public class SingerListActivity extends AppCompatActivity {
         api.getSingers().enqueue(new Callback<List<Singer>>() {
             @Override
             public void onResponse(Call<List<Singer>> call, final Response<List<Singer>> response) {
-
                 new Thread() {
                     public void run() {
                         singersDb.deleteAllSingers();
                         for (Singer s : response.body()) {
                             singersDb.addSinger(s);
                         }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    swipeView.setRefreshing(false);
-                                    ShowDataFromDb();
-                                }
-                            });
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeView.setRefreshing(false);
+                                ShowDataFromDb(response.body());
+                            }
+                        });
                     }
                 }.start();
             }
@@ -131,6 +119,28 @@ public class SingerListActivity extends AppCompatActivity {
                 swipeView.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.singer_list_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        // Here is where we are going to implement our filter logic
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -165,7 +175,7 @@ public class SingerListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mTwoPane) {
+                    if (twoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putLong(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         SingerDetailFragment fragment = new SingerDetailFragment();

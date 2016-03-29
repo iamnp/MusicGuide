@@ -3,11 +3,12 @@
     android:id="@+id/singer_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="iamnp.musicguide.SingerDetailFragment" >
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/singer_detail_imageView" />
 
     <TextView
@@ -15,8 +16,14 @@
         style="?android:attr/textAppearanceLarge"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:id="@+id/singer_detail_textView"
-        android:textIsSelectable="true"
-        tools:context="iamnp.musicguide.SingerDetailFragment" />
+        android:id="@+id/singer_detail_name_textView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:id="@+id/singer_detail_desc_textView"
+        android:textIsSelectable="true" />
 
 </LinearLayout>

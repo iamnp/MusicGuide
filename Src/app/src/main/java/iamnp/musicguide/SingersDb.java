@@ -31,15 +31,15 @@ public class SingersDb extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + "("
             + COLUMN_INDEX + " integer primary key autoincrement, "
-            + COLUMN_ID + " integer not null, "
-            + COLUMN_NAME + " text not null, "
-            + COLUMN_GENRES + " text not null,"
-            + COLUMN_TRACKS + " integer not null,"
-            + COLUMN_ALBUMS + " integer not null,"
-            + COLUMN_LINK + " text not null,"
-            + COLUMN_COVER_SMALL + " text not null,"
-            + COLUMN_COVER_BIG + " text not null,"
-            + COLUMN_DESCRIPTION + " text not null"
+            + COLUMN_ID + " integer, "
+            + COLUMN_NAME + " text, "
+            + COLUMN_GENRES + " text, "
+            + COLUMN_TRACKS + " integer, "
+            + COLUMN_ALBUMS + " integer, "
+            + COLUMN_LINK + " text, "
+            + COLUMN_COVER_SMALL + " text, "
+            + COLUMN_COVER_BIG + " text, "
+            + COLUMN_DESCRIPTION + " text"
             + ");";
 
     public SingersDb(Context context) {
@@ -98,11 +98,11 @@ public class SingersDb extends SQLiteOpenHelper {
         return s;
     }
 
-    public List<Singer> getAllSingers(int skip, int count) {
+    public List<Singer> getAllSingers() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
                         {COLUMN_ID, COLUMN_NAME, COLUMN_GENRES, COLUMN_TRACKS, COLUMN_ALBUMS, COLUMN_LINK, COLUMN_COVER_SMALL, COLUMN_COVER_BIG, COLUMN_DESCRIPTION},
-                null, null, null, null, null, /*skip + "," + count*/null);
+                null, null, null, null, null, null);
         List<Singer> ss = new ArrayList<>();
         while (mCursor.moveToNext()) {
             Singer s = new Singer();
