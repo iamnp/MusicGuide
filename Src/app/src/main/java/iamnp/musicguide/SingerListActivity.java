@@ -44,8 +44,11 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeView;
 
-    private List<Singer> singers = new ArrayList<Singer>();
-    private SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(singers);
+    private String currentQuery;
+
+    private List<Singer> bindedSingers = new ArrayList<Singer>();
+    private List<Singer> allSingers = new ArrayList<Singer>();
+    private SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(bindedSingers);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +57,11 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
         singersDb = new SingersDb(this);
 
+        findViewById(R.id.fab).setVisibility(View.GONE);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         if (findViewById(R.id.singer_detail_container) != null) {
             twoPane = true;
@@ -88,8 +84,18 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
     }
 
     private void ShowDataFromDb(List<Singer> s) {
-        singers.clear();
-        singers.addAll(s == null ? singersDb.getAllSingers() : s);
+        allSingers = s == null ? singersDb.getAllSingers() : s;
+        ShowFilteredSingers();
+    }
+    
+    private void ShowFilteredSingers() {
+        bindedSingers.clear();
+        String q = currentQuery == null ? null : currentQuery.toLowerCase();
+        for (int i = 0; i < allSingers.size(); ++i) {
+            if (q == null || allSingers.get(i).name.toLowerCase().contains(q)) {
+                bindedSingers.add(allSingers.get(i));
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 
@@ -134,7 +140,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
     @Override
     public boolean onQueryTextChange(String query) {
-        // Here is where we are going to implement our filter logic
+        currentQuery = query;
+        ShowFilteredSingers();
         return false;
     }
 

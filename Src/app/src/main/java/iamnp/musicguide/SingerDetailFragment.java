@@ -1,8 +1,12 @@
 package iamnp.musicguide;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +46,11 @@ public class SingerDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.singer_detail, container, false);
 
+        Activity activity = this.getActivity();
+        FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
+
         if (singer != null) {
-            Activity activity = this.getActivity();
             useAppBar = activity instanceof SingerDetailActivity;
 
             if (useAppBar) {
@@ -59,6 +66,16 @@ public class SingerDetailFragment extends Fragment {
             }
 
             ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView)).setText(singer.description);
+
+            if (singer.link != null) {
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(singer.link)));
+                    }
+                });
+            }
         }
 
         return rootView;
