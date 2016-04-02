@@ -62,7 +62,7 @@ public class SingersDb extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, s.id);
         values.put(COLUMN_NAME, s.name);
-        values.put(COLUMN_GENRES, s.GenresAsString());
+        values.put(COLUMN_GENRES, s.genresAsString());
         values.put(COLUMN_TRACKS, s.tracks);
         values.put(COLUMN_ALBUMS, s.albums);
         values.put(COLUMN_LINK, s.link);

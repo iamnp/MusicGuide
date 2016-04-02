@@ -2,6 +2,9 @@ package iamnp.musicguide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,6 +77,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         });
 
         recyclerView = (RecyclerView)findViewById(R.id.singer_list);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this));
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
 
@@ -92,7 +94,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         bindedSingers.clear();
         String q = currentQuery == null ? null : currentQuery.toLowerCase();
         for (int i = 0; i < allSingers.size(); ++i) {
-            if (q == null || allSingers.get(i).name.toLowerCase().contains(q)) {
+            if (q == null || allSingers.get(i).name.toLowerCase().contains(q) || allSingers.get(i).genresAsString().toLowerCase().contains(q)) {
                 bindedSingers.add(allSingers.get(i));
             }
         }
@@ -175,8 +177,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mNameView.setText(mValues.get(position).name);
-            holder.mGenresView.setText(mValues.get(position).GenresAsString());
-            holder.mStatsView.setText(mValues.get(position).StatsAsString(SingerListActivity.this.getApplicationContext()));
+            holder.mGenresView.setText(mValues.get(position).genresAsString());
+            holder.mStatsView.setText(mValues.get(position).statsAsString(SingerListActivity.this.getApplicationContext()));
             Picasso.with(SingerListActivity.this.getApplicationContext()).load(mValues.get(position).cover.small).into(holder.mImageView);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +223,36 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
                 mGenresView = (TextView) view.findViewById(R.id.genresTextView);
                 mStatsView = (TextView) view.findViewById(R.id.statsTextView);
                 mImageView = (ImageView) view.findViewById(R.id.imageView);
+            }
+        }
+    }
+
+    public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+
+        private Drawable mDivider;
+
+        public DividerItemDecoration(Context context) {
+            final TypedArray styledAttributes = context.obtainStyledAttributes(new int[]{android.R.attr.listDivider});
+            mDivider = styledAttributes.getDrawable(0);
+            styledAttributes.recycle();
+        }
+
+        @Override
+        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + mDivider.getIntrinsicHeight();
+
+                mDivider.setBounds(left, top, right, bottom);
+                mDivider.draw(c);
             }
         }
     }

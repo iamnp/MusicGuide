@@ -15,15 +15,41 @@
         android:layout_width="match_parent"
         style="?android:attr/textAppearanceLarge"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:paddingLeft="14dp"
+        android:paddingTop="16dp"
         android:id="@+id/singer_detail_name_textView" />
 
     <TextView
         android:layout_width="match_parent"
         style="?android:attr/textAppearanceMedium"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:id="@+id/singer_detail_desc_textView"
-        android:textIsSelectable="true" />
+        android:paddingLeft="14dp"
+        android:paddingTop="16dp"
+        android:id="@+id/singer_detail_genres_textView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_height="match_parent"
+        android:paddingLeft="14dp"
+        android:paddingTop="16dp"
+        android:id="@+id/singer_detail_stats_textView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_height="match_parent"
+        android:text="@string/biography"
+        android:paddingLeft="14dp"
+        android:paddingTop="16dp"
+        android:id="@+id/singer_detail_biography_textView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_height="match_parent"
+        android:paddingLeft="14dp"
+        android:paddingTop="16dp"
+        android:id="@+id/singer_detail_desc_textView" />
 
 </LinearLayout>

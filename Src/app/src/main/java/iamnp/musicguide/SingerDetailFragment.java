@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +65,8 @@ public class SingerDetailFragment extends Fragment {
             }
 
             ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView)).setText(singer.description);
+            ((TextView) rootView.findViewById(R.id.singer_detail_genres_textView)).setText(singer.genresAsString());
+            ((TextView) rootView.findViewById(R.id.singer_detail_stats_textView)).setText(singer.statsAsString(this.getContext()));
 
             if (singer.link != null) {
                 fab.setVisibility(View.VISIBLE);
