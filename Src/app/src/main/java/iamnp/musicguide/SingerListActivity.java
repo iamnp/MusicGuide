@@ -24,14 +24,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SingerListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -59,7 +59,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
         singersDb = new SingersDb(this);
 
-        ((FloatingActionButton)findViewById(R.id.fab)).hide();
+        ((FloatingActionButton) findViewById(R.id.fab)).hide();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,7 +77,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
             }
         });
 
-        recyclerView = (RecyclerView)findViewById(R.id.singer_list);
+        recyclerView = (RecyclerView) findViewById(R.id.singer_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
 
         adapter = new SimpleItemRecyclerViewAdapter(bindedSingers);
@@ -92,7 +92,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         allSingers = s == null ? singersDb.getAllSingers() : s;
         ShowFilteredSingers();
     }
-    
+
     private void ShowFilteredSingers() {
         bindedSingers.clear();
         String q = currentQuery == null ? null : currentQuery.toLowerCase();

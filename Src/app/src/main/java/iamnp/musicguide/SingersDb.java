@@ -14,10 +14,6 @@ import java.util.List;
  */
 public class SingersDb extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "singers.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_TABLE = "singers";
-
     // table fields
     public static final String COLUMN_INDEX = "index_key";
     public static final String COLUMN_ID = "id";
@@ -29,7 +25,9 @@ public class SingersDb extends SQLiteOpenHelper {
     public static final String COLUMN_COVER_SMALL = "cover_small";
     public static final String COLUMN_COVER_BIG = "cover_big";
     public static final String COLUMN_DESCRIPTION = "description";
-
+    private static final String DATABASE_NAME = "singers.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_TABLE = "singers";
     // query to create database
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + "("

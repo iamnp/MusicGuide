@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 /**
@@ -29,8 +26,8 @@ public class SingerDetailActivity extends AppCompatActivity {
         // Set appbar height to 1/3 of the screen height.
         AppBarLayout appbar = (AppBarLayout) findViewById(R.id.app_bar);
         float heightDp = getResources().getDisplayMetrics().heightPixels / 3;
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appbar.getLayoutParams();
-        lp.height = (int)heightDp;
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        lp.height = (int) heightDp;
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();

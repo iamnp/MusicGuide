@@ -15,11 +15,6 @@ public class Singer {
     public String description;
     public Cover cover;
 
-    public static class Cover {
-        public String small;
-        public String big;
-    }
-
     /**
      * @return Genres as a string separated by comma
      */
@@ -41,5 +36,10 @@ public class Singer {
         String tra = tracks + " " + ((tracks >= 5 && tracks <= 20) || tracks % 10 >= 5 ? ctx.getString(R.string.songs2) : (tracks % 10 == 1 ? ctx.getString(R.string.song) : ctx.getString(R.string.songs1)));
 
         return alb + "  •  " + tra;
+    }
+
+    public static class Cover {
+        public String small;
+        public String big;
     }
 }
