@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Fragment that holds detail singer info
+ */
 public class SingerDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
@@ -35,6 +38,7 @@ public class SingerDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        // Try to get singer data from db.
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             try {
                 singer = singersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
@@ -46,10 +50,10 @@ public class SingerDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.singer_detail, container, false);
 
         Activity activity = this.getActivity();
-        FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
+        boolean floatingActionButtonVisible = false;
 
         if (singer != null) {
+            // Whether we have appbar or not.
             useAppBar = activity instanceof SingerDetailActivity;
 
             if (useAppBar) {
@@ -69,14 +73,21 @@ public class SingerDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.singer_detail_stats_textView)).setText(singer.statsAsString(this.getContext()));
 
             if (singer.link != null) {
-                fab.setVisibility(View.VISIBLE);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(singer.link)));
-                    }
-                });
+                floatingActionButtonVisible = true;
             }
+        }
+
+        FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+        if (floatingActionButtonVisible) {
+            fab.show();
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(singer.link)));
+                }
+            });
+        } else {
+            fab.hide();
         }
 
         return rootView;

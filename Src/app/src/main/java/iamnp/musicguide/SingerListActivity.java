@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +50,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
     private List<Singer> bindedSingers = new ArrayList<Singer>();
     private List<Singer> allSingers = new ArrayList<Singer>();
-    private SimpleItemRecyclerViewAdapter adapter = new SimpleItemRecyclerViewAdapter(bindedSingers);
+    private SimpleItemRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
         singersDb = new SingersDb(this);
 
-        findViewById(R.id.fab).setVisibility(View.GONE);
+        ((FloatingActionButton)findViewById(R.id.fab)).hide();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,6 +79,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
         recyclerView = (RecyclerView)findViewById(R.id.singer_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
+
+        adapter = new SimpleItemRecyclerViewAdapter(bindedSingers);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
 
@@ -102,6 +105,14 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
     }
 
     private void LoadDataIntoDb() {
+        if (bindedSingers.size() == 0) {
+            swipeView.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeView.setRefreshing(true);
+                }
+            });
+        }
         api.getSingers().enqueue(new Callback<List<Singer>>() {
             @Override
             public void onResponse(Call<List<Singer>> call, final Response<List<Singer>> response) {
@@ -152,8 +163,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         return false;
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<Singer> mValues;
 

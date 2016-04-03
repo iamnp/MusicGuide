@@ -13,6 +13,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+/**
+ * Activity to display a fragment with singer detail info
+ */
 public class SingerDetailActivity extends AppCompatActivity {
 
     @Override
@@ -35,6 +38,7 @@ public class SingerDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        // No need to recreate fragment on device rotation, etc.
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
             arguments.putLong(SingerDetailFragment.ARG_ITEM_ID,
