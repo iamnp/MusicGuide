@@ -23,14 +23,35 @@ public class SearchPositiveTest {
 
     @Rule
     public ActivityTestRule<SingerListActivity> mActivityRule = new ActivityTestRule<>(SingerListActivity.class);
-    private String mStringToBeSearched = "Noize MC";
 
     @Test
-    public void changeText_sameActivity() {
+    public void SearchPositiveTest() {
+        String mStringToBeSearched = "Noize MC";
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
 
-        onView(withId(R.id.singer_list)).check(matches(hasDescendant(withText(mStringToBeSearched))));
+        onView(withId(R.id.singer_list)).check(matches(Matchers.atPosition(0, hasDescendant(withText(mStringToBeSearched)))));
         onView(withId(R.id.singer_list)).check(matches(Matchers.withListSize(1)));
+    }
+
+    @Test
+    public void SearchNegativeTest() {
+        String mStringToBeSearched = "non_existsing_singer";
+
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
+
+        onView(withId(R.id.singer_list)).check(matches(Matchers.withListSize(0)));
+    }
+
+    @Test
+    public void SearchPositiveManyTest() {
+        String mStringToBeSearched = "rusrap";
+
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
+
+        onView(withId(R.id.singer_list)).check(matches(Matchers.allItems(hasDescendant(withText(mStringToBeSearched)))));
     }
 }
