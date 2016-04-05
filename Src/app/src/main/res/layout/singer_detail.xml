@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="14dp"
         android:paddingTop="16dp"
+        android:transitionName="@string/genres_transition"
         android:id="@+id/singer_detail_genres_textView" />
 
     <TextView
@@ -33,6 +34,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="14dp"
         android:paddingTop="16dp"
+        android:transitionName="@string/stats_transition"
         android:id="@+id/singer_detail_stats_textView" />
 
     <TextView
@@ -49,6 +51,7 @@
         style="?android:attr/textAppearanceLarge"
         android:layout_height="match_parent"
         android:paddingLeft="14dp"
+        android:paddingRight="10dp"
         android:paddingTop="16dp"
         android:id="@+id/singer_detail_desc_textView" />
 

@@ -9,4 +9,6 @@
     <string name="songs2">песен</string>
     <string name="action_search">Поиск</string>
     <string name="biography">Биография</string>
+    <string name="stats_transition">statsTransition</string>
+    <string name="genres_transition">genresTransition</string>
 </resources>

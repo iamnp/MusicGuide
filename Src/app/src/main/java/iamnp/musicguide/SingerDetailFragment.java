@@ -89,7 +89,6 @@ public class SingerDetailFragment extends Fragment {
         } else {
             fab.hide();
         }
-
         return rootView;
     }
 }
