@@ -1,0 +1,10 @@
+<resources>
+    <string name="album">альбом</string>
+    <string name="albums1">альбома</string>
+    <string name="albums2">альбомов</string>
+    <string name="song">песня</string>
+    <string name="songs1">песни</string>
+    <string name="songs2">песен</string>
+    <string name="action_search">Поиск</string>
+    <string name="biography">Биография</string>
+</resources>

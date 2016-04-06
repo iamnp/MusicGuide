@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Music Guide</string>
-    <string name="title_singer_detail">Singer Detail</string>
-    <string name="album">альбом</string>
-    <string name="albums1">альбома</string>
-    <string name="albums2">альбомов</string>
-    <string name="song">песня</string>
-    <string name="songs1">песни</string>
-    <string name="songs2">песен</string>
-    <string name="action_search">Поиск</string>
-    <string name="biography">Биография</string>
+    <string name="title_singer_detail">Music Guide</string>
+    <string name="album">albums</string>
+    <string name="albums1">albums</string>
+    <string name="albums2">albums</string>
+    <string name="song">songs</string>
+    <string name="songs1">songs</string>
+    <string name="songs2">songs</string>
+    <string name="action_search">Search</string>
+    <string name="biography">Biography</string>
     <string name="stats_transition">statsTransition</string>
     <string name="genres_transition">genresTransition</string>
 </resources>
