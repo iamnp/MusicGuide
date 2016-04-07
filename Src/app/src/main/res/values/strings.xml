@@ -9,6 +9,4 @@
     <string name="songs2">songs</string>
     <string name="action_search">Search</string>
     <string name="biography">Biography</string>
-    <string name="stats_transition">statsTransition</string>
-    <string name="genres_transition">genresTransition</string>
 </resources>

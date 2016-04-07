@@ -7,4 +7,5 @@
     <dimen name="list_image_width">100dp</dimen>
     <dimen name="list_image_height">100dp</dimen>
     <dimen name="list_item_padding">10dp</dimen>
+    <dimen name="detail_content_padding">14dp</dimen>
 </resources>

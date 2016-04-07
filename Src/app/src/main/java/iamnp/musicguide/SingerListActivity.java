@@ -208,12 +208,6 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
                         Context context = v.getContext();
                         Intent intent = new Intent(context, SingerDetailActivity.class);
                         intent.putExtra(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-
-                        //Pair<View, String> p1 = Pair.create((View) holder.mStatsView, context.getString(R.string.stats_transition));
-                        //Pair<View, String> p2 = Pair.create((View) holder.mGenresView, context.getString(R.string.genres_transition));
-                        //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SingerListActivity.this, p1, p2);
-
-                        //ActivityCompat.startActivity(SingerListActivity.this, intent, options.toBundle());
                         ActivityCompat.startActivity(SingerListActivity.this, intent, ActivityOptionsCompat.makeSceneTransitionAnimation(SingerListActivity.this).toBundle());
                     }
                 }

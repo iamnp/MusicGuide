@@ -32,7 +32,6 @@
 
         <TextView
             android:id="@+id/genresTextView"
-            android:transitionName="@string/genres_transition"
             android:layout_width="wrap_content"
             android:text="genres"
             android:textSize="14sp"
@@ -45,7 +44,6 @@
 
         <TextView
             android:id="@+id/statsTextView"
-            android:transitionName="@string/stats_transition"
             android:text="stats"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray"
