@@ -11,4 +11,5 @@
     <string name="biography">Biography</string>
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
+    <string name="stats_separator">•</string>
 </resources>

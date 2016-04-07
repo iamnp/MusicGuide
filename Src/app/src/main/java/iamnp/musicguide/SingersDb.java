@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to store and retrieve information about singers.
+ * Class to store and retrieve information about singers
  */
 public class SingersDb extends SQLiteOpenHelper {
 
-    // table fields
+    // Table fields
     public static final String COLUMN_INDEX = "index_key";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
@@ -28,6 +28,7 @@ public class SingersDb extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "singers.db";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_TABLE = "singers";
+
     // query to create database
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + "("

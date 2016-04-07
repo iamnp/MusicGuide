@@ -7,26 +7,26 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * Top-crop ImageView class
+ */
 public class TopCropImageView extends ImageView {
     private Matrix mMatrix;
     private boolean mHasFrame;
 
-    @SuppressWarnings("UnusedDeclaration")
     public TopCropImageView(Context context) {
         this(context, null, 0);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public TopCropImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public TopCropImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mHasFrame = false;
         mMatrix = new Matrix();
-        // we have to use own matrix because:
+        // We have to use own matrix because:
         // ImageView.setImageMatrix(Matrix matrix) will not call
         // configureBounds(); invalidate(); because we will operate on ImageView object
     }
@@ -36,7 +36,7 @@ public class TopCropImageView extends ImageView {
         boolean changed = super.setFrame(l, t, r, b);
         if (changed) {
             mHasFrame = true;
-            // we do not want to call this method if nothing changed
+            // We do not want to call this method if nothing changed
             setupScaleMatrix(r - l, b - t);
         }
         return changed;
@@ -44,13 +44,13 @@ public class TopCropImageView extends ImageView {
 
     private void setupScaleMatrix(int width, int height) {
         if (!mHasFrame) {
-            // we have to ensure that we already have frame
+            // We have to ensure that we already have frame
             // called and have width and height
             return;
         }
         final Drawable drawable = getDrawable();
         if (drawable == null) {
-            // we have to check if drawable is null because
+            // We have to check if drawable is null because
             // when not initialized at startup drawable we can
             // rise NullPointerException
             return;
@@ -63,7 +63,7 @@ public class TopCropImageView extends ImageView {
         float factorHeight = height / (float) intrinsicHeight;
         float factor = Math.max(factorHeight, factorWidth);
 
-        // there magic happen and can be adjusted to current
+        // There magic happen and can be adjusted to current
         // needs
         matrix.setTranslate(-intrinsicWidth / 2.0f, 0);
         matrix.postScale(factor, factor, 0, 0);
@@ -74,24 +74,24 @@ public class TopCropImageView extends ImageView {
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
-        // We have to recalculate image after chaning image
+        // We have to recalculate image after changing image
         setupScaleMatrix(getWidth(), getHeight());
     }
 
     @Override
     public void setImageResource(int resId) {
         super.setImageResource(resId);
-        // We have to recalculate image after chaning image
+        // We have to recalculate image after changing image
         setupScaleMatrix(getWidth(), getHeight());
     }
 
     @Override
     public void setImageURI(Uri uri) {
         super.setImageURI(uri);
-        // We have to recalculate image after chaning image
+        // We have to recalculate image after changing image
         setupScaleMatrix(getWidth(), getHeight());
     }
 
-    // We do not have to overide setImageBitmap because it calls
+    // We do not have to override setImageBitmap because it calls
     // setImageDrawable method
 }

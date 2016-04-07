@@ -38,7 +38,7 @@ public class SingerDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Try to get singer data from db.
+        // Try to get singer data from db
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             try {
                 singer = singersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
@@ -53,7 +53,7 @@ public class SingerDetailFragment extends Fragment {
         boolean floatingActionButtonVisible = false;
 
         if (singer != null) {
-            // Whether we have appbar or not.
+            // Whether we have appbar or not
             useAppBar = activity instanceof SingerDetailActivity;
 
             if (useAppBar) {
