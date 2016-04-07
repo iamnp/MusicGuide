@@ -7,4 +7,6 @@
     <string name="songs2">песен</string>
     <string name="action_search">Поиск</string>
     <string name="biography">Биография</string>
+    <string name="network_error">Ошибка при загрузке</string>
+    <string name="retry">Повторить</string>
 </resources>

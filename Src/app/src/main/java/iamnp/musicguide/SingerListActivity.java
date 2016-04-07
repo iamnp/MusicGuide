@@ -6,7 +6,9 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -47,6 +49,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeView;
+    private CoordinatorLayout coordinatorLayout;
 
     private String currentQuery;
 
@@ -62,6 +65,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         singersDb = new SingersDb(this);
 
         ((FloatingActionButton) findViewById(R.id.fab)).hide();
+
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordLayout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -137,6 +142,13 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
 
             @Override
             public void onFailure(Call<List<Singer>> call, Throwable t) {
+                Snackbar.make(coordinatorLayout, getResources().getString(R.string.network_error), Snackbar.LENGTH_LONG)
+                        .setAction(getResources().getString(R.string.retry), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                LoadDataIntoDb();
+                            }
+                        }).show();
                 swipeView.setRefreshing(false);
             }
         });

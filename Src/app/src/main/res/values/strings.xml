@@ -9,4 +9,6 @@
     <string name="songs2">songs</string>
     <string name="action_search">Search</string>
     <string name="biography">Biography</string>
+    <string name="network_error">Network error</string>
+    <string name="retry">Retry</string>
 </resources>
