@@ -19,20 +19,25 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SearchPositiveTest {
+public class SearchTest {
 
     @Rule
-    public ActivityTestRule<SingerListActivity> mActivityRule = new ActivityTestRule<>(SingerListActivity.class);
+    public ActivityTestRule<SingerListActivity> mActivityRule
+            = new ActivityTestRule<>(SingerListActivity.class);
 
     @Test
     public void SearchPositiveTest() {
         String mStringToBeSearched = "Noize MC";
 
         onView(withId(R.id.action_search)).perform(click());
-        onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
+        onView(withId(android.support.v7.appcompat.R.id.search_src_text))
+                .perform(typeText(mStringToBeSearched), closeSoftKeyboard());
 
-        onView(withId(R.id.singer_list)).check(matches(Matchers.atPosition(0, hasDescendant(withText(mStringToBeSearched)))));
-        onView(withId(R.id.singer_list)).check(matches(Matchers.withListSize(1)));
+        onView(withId(R.id.singer_list))
+                .check(matches(
+                        Matchers.atPosition(0, hasDescendant(withText(mStringToBeSearched)))));
+        onView(withId(R.id.singer_list))
+                .check(matches(Matchers.withListSize(1)));
     }
 
     @Test
@@ -40,7 +45,8 @@ public class SearchPositiveTest {
         String mStringToBeSearched = "non_existsing_singer";
 
         onView(withId(R.id.action_search)).perform(click());
-        onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
+        onView(withId(android.support.v7.appcompat.R.id.search_src_text))
+                .perform(typeText(mStringToBeSearched), closeSoftKeyboard());
 
         onView(withId(R.id.singer_list)).check(matches(Matchers.withListSize(0)));
     }
@@ -50,8 +56,10 @@ public class SearchPositiveTest {
         String mStringToBeSearched = "rusrap";
 
         onView(withId(R.id.action_search)).perform(click());
-        onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(typeText(mStringToBeSearched), closeSoftKeyboard());
+        onView(withId(android.support.v7.appcompat.R.id.search_src_text))
+                .perform(typeText(mStringToBeSearched), closeSoftKeyboard());
 
-        onView(withId(R.id.singer_list)).check(matches(Matchers.allItems(hasDescendant(withText(mStringToBeSearched)))));
+        onView(withId(R.id.singer_list))
+                .check(matches(Matchers.allItems(hasDescendant(withText(mStringToBeSearched)))));
     }
 }

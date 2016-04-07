@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 /**
- * Activity that displays a fragment with singer detail info
+ * Activity that displays a fragment with singer detail info.
  */
 public class SingerDetailActivity extends AppCompatActivity {
 
@@ -32,7 +32,8 @@ public class SingerDetailActivity extends AppCompatActivity {
         // Set appbar height to 1/3 of the screen height
         AppBarLayout appbar = (AppBarLayout) findViewById(R.id.app_bar);
         float heightDp = getResources().getDisplayMetrics().heightPixels / 3;
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        CoordinatorLayout.LayoutParams lp =
+                (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
         lp.height = (int) heightDp;
 
         // Show the Up button in the action bar

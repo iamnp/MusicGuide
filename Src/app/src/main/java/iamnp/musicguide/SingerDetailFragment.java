@@ -16,15 +16,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 /**
- * Fragment that holds detail singer info
+ * Fragment that holds detail singer info.
  */
 public class SingerDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
-    private Singer singer;
-    private boolean useAppBar;
-    private CollapsingToolbarLayout appBarLayout;
-    private SingersDb singersDb;
+    private boolean mUseAppBar;
+    private CollapsingToolbarLayout mAppBarLayout;
+    private SingersDb mSingersDb;
+    private Singer mCurrentSinger;
 
     public SingerDetailFragment() {
     }
@@ -32,18 +32,18 @@ public class SingerDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        singersDb = new SingersDb(this.getContext());
+        mSingersDb = new SingersDb(this.getContext());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Try to get singer data from db
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             try {
-                singer = singersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
+                mCurrentSinger = mSingersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
             } catch (Exception ex) {
-
+                // No singer data will be shown
             }
         }
 
@@ -52,27 +52,36 @@ public class SingerDetailFragment extends Fragment {
         Activity activity = this.getActivity();
         boolean floatingActionButtonVisible = false;
 
-        if (singer != null) {
+        if (mCurrentSinger != null) {
             // Whether we have appbar or not
-            useAppBar = activity instanceof SingerDetailActivity;
+            mUseAppBar = activity instanceof SingerDetailActivity;
 
-            if (useAppBar) {
-                appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-                appBarLayout.setTitle(singer.name);
-                Picasso.with(this.getContext()).load(singer.cover.big).into(((ImageView) appBarLayout.findViewById(R.id.detail_imageView)));
+            if (mUseAppBar) {
+                mAppBarLayout = (CollapsingToolbarLayout) activity
+                        .findViewById(R.id.toolbar_layout);
+                mAppBarLayout.setTitle(mCurrentSinger.name);
+                Picasso.with(this.getContext())
+                        .load(mCurrentSinger.cover.big)
+                        .into(((ImageView) mAppBarLayout.findViewById(R.id.detail_imageView)));
 
                 rootView.findViewById(R.id.singer_detail_imageView).setVisibility(View.GONE);
                 rootView.findViewById(R.id.singer_detail_name_textView).setVisibility(View.GONE);
             } else {
-                Picasso.with(this.getContext()).load(singer.cover.big).into((ImageView) rootView.findViewById(R.id.singer_detail_imageView));
-                ((TextView) rootView.findViewById(R.id.singer_detail_name_textView)).setText(singer.name);
+                Picasso.with(this.getContext())
+                        .load(mCurrentSinger.cover.big)
+                        .into((ImageView) rootView.findViewById(R.id.singer_detail_imageView));
+                ((TextView) rootView.findViewById(R.id.singer_detail_name_textView))
+                        .setText(mCurrentSinger.name);
             }
 
-            ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView)).setText(singer.description);
-            ((TextView) rootView.findViewById(R.id.singer_detail_genres_textView)).setText(singer.genresAsString());
-            ((TextView) rootView.findViewById(R.id.singer_detail_stats_textView)).setText(singer.statsAsString(this.getContext()));
+            ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView))
+                    .setText(mCurrentSinger.description);
+            ((TextView) rootView.findViewById(R.id.singer_detail_genres_textView))
+                    .setText(mCurrentSinger.genresAsString());
+            ((TextView) rootView.findViewById(R.id.singer_detail_stats_textView))
+                    .setText(mCurrentSinger.statsAsString(this.getContext()));
 
-            if (singer.link != null) {
+            if (mCurrentSinger.link != null) {
                 floatingActionButtonVisible = true;
             }
         }
@@ -83,12 +92,13 @@ public class SingerDetailFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(singer.link)));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mCurrentSinger.link)));
                 }
             });
         } else {
             fab.hide();
         }
+
         return rootView;
     }
 }

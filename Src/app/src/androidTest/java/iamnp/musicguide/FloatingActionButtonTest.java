@@ -21,17 +21,22 @@ import static org.hamcrest.Matchers.not;
 public class FloatingActionButtonTest {
 
     @Rule
-    public ActivityTestRule<SingerListActivity> mActivityRule = new ActivityTestRule<>(SingerListActivity.class);
+    public ActivityTestRule<SingerListActivity> mActivityRule
+            = new ActivityTestRule<>(SingerListActivity.class);
 
     @Test
     public void FloatingActionButtonVisibleTest() {
-        onView(withId(R.id.singer_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.fab)).check(matches(isDisplayed()));
+        onView(withId(R.id.singer_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.fab))
+                .check(matches(isDisplayed()));
     }
 
     @Test
     public void FloatingActionButtonInvisibleTest() {
-        onView(withId(R.id.singer_list)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
-        onView(withId(R.id.fab)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.singer_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        onView(withId(R.id.fab))
+                .check(matches(not(isDisplayed())));
     }
 }

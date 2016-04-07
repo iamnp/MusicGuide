@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to store and retrieve information about singers
+ * Class to store and retrieve information about singers.
  */
 public class SingersDb extends SQLiteOpenHelper {
 
@@ -29,7 +29,7 @@ public class SingersDb extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_TABLE = "singers";
 
-    // query to create database
+    // Query to create database
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + "("
             + COLUMN_INDEX + " integer primary key autoincrement, "
@@ -59,27 +59,32 @@ public class SingersDb extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addSinger(Singer s) {
+    public synchronized void clearAndAdd(List<Singer> singers) {
         SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_ID, s.id);
-        values.put(COLUMN_NAME, s.name);
-        values.put(COLUMN_GENRES, s.genresAsString());
-        values.put(COLUMN_TRACKS, s.tracks);
-        values.put(COLUMN_ALBUMS, s.albums);
-        values.put(COLUMN_LINK, s.link);
-        values.put(COLUMN_COVER_SMALL, s.cover.small);
-        values.put(COLUMN_COVER_BIG, s.cover.big);
-        values.put(COLUMN_DESCRIPTION, s.description);
+        db.delete(DATABASE_TABLE, null, null);
+        for (Singer s : singers) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_ID, s.id);
+            values.put(COLUMN_NAME, s.name);
+            values.put(COLUMN_GENRES, s.genresAsString());
+            values.put(COLUMN_TRACKS, s.tracks);
+            values.put(COLUMN_ALBUMS, s.albums);
+            values.put(COLUMN_LINK, s.link);
+            values.put(COLUMN_COVER_SMALL, s.cover.small);
+            values.put(COLUMN_COVER_BIG, s.cover.big);
+            values.put(COLUMN_DESCRIPTION, s.description);
 
-        long row = db.insert(DATABASE_TABLE, null, values);
+            long row = db.insert(DATABASE_TABLE, null, values);
+        }
         db.close();
     }
 
-    public Singer getSinger(long id) {
+    public synchronized Singer getSinger(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
-                        {COLUMN_ID, COLUMN_NAME, COLUMN_GENRES, COLUMN_TRACKS, COLUMN_ALBUMS, COLUMN_LINK, COLUMN_COVER_SMALL, COLUMN_COVER_BIG, COLUMN_DESCRIPTION},
+                        {COLUMN_ID, COLUMN_NAME, COLUMN_GENRES, COLUMN_TRACKS,
+                                COLUMN_ALBUMS, COLUMN_LINK, COLUMN_COVER_SMALL,
+                                COLUMN_COVER_BIG, COLUMN_DESCRIPTION},
                 COLUMN_ID + "=" + id, null, null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -100,10 +105,12 @@ public class SingersDb extends SQLiteOpenHelper {
         return s;
     }
 
-    public List<Singer> getAllSingers() {
+    public synchronized List<Singer> getAllSingers() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]
-                        {COLUMN_ID, COLUMN_NAME, COLUMN_GENRES, COLUMN_TRACKS, COLUMN_ALBUMS, COLUMN_LINK, COLUMN_COVER_SMALL, COLUMN_COVER_BIG, COLUMN_DESCRIPTION},
+                        {COLUMN_ID, COLUMN_NAME, COLUMN_GENRES, COLUMN_TRACKS,
+                                COLUMN_ALBUMS, COLUMN_LINK, COLUMN_COVER_SMALL,
+                                COLUMN_COVER_BIG, COLUMN_DESCRIPTION},
                 null, null, null, null, null, null);
         List<Singer> ss = new ArrayList<>();
         while (mCursor.moveToNext()) {
@@ -123,11 +130,5 @@ public class SingersDb extends SQLiteOpenHelper {
         mCursor.close();
         db.close();
         return ss;
-    }
-
-    public void deleteAllSingers() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(DATABASE_TABLE, null, null);
-        db.close();
     }
 }

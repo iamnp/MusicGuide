@@ -38,120 +38,123 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Main activity with singers list
+ * Main activity with singers list.
  */
-public class SingerListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SingerListActivity extends AppCompatActivity
+        implements SearchView.OnQueryTextListener {
 
-    private boolean twoPane;
-    private Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://cache-default06h.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-    private YandexSingersApi api = retrofit.create(YandexSingersApi.class);
-    private SingersDb singersDb;
+    private boolean mTwoPane;
+    private Retrofit mRetrofit;
+    private YandexSingersApi mApi;
+    private SingersDb mSingersDb;
 
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeView;
-    private CoordinatorLayout coordinatorLayout;
+    private RecyclerView mRcyclerView;
+    private SwipeRefreshLayout mSwipeView;
+    private CoordinatorLayout mCoordinatorLayout;
 
-    private String currentQuery;
+    private String mCurrentQuery;
 
-    // Singers list bound to RecyclerView adapter (e.g. filtered singers list)
-    private List<Singer> boundSingers = new ArrayList<Singer>();
+    // Singers list bound to RecyclerView mAdapter (e.g. filtered singers list)
+    private List<Singer> mBoundSingers = new ArrayList<Singer>();
     // Singer list with all singers
-    private List<Singer> allSingers = new ArrayList<Singer>();
-    private SimpleItemRecyclerViewAdapter adapter;
+    private List<Singer> mAllSingers = new ArrayList<Singer>();
+    private SimpleItemRecyclerViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_singer_list);
 
-        singersDb = new SingersDb(this);
+        mRetrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.yandex_api_url))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        mApi = mRetrofit.create(YandexSingersApi.class);
+
+        mSingersDb = new SingersDb(this);
 
         ((FloatingActionButton) findViewById(R.id.fab)).hide();
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordLayout);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordLayout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        // if layout has singer_detail_container than we are in two pane mode
+        // If layout has singer_detail_container than we are in two pane mode
         if (findViewById(R.id.singer_detail_container) != null) {
-            twoPane = true;
+            mTwoPane = true;
         }
 
-        swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        mSwipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
         // Load singers data from web on swipe-to-refresh
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 LoadDataIntoDb();
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.singer_list);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this));
+        mRcyclerView = (RecyclerView) findViewById(R.id.singer_list);
+        mRcyclerView.addItemDecoration(new DividerItemDecoration(this));
 
-        adapter = new SimpleItemRecyclerViewAdapter(boundSingers);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new SimpleItemRecyclerViewAdapter(mBoundSingers);
+        mRcyclerView.setAdapter(mAdapter);
 
         ShowDataFromDb(null);
         LoadDataIntoDb();
     }
 
     /**
-     * Filter and show singers in recycler view
-     * @param s list of singers to populate or null to load it from db
+     * Filter and show singers in recycler view.
+     *
+     * @param s list of singers to populate or null to load it from db.
      */
     private void ShowDataFromDb(List<Singer> s) {
-        allSingers = s == null ? singersDb.getAllSingers() : s;
+        mAllSingers = s == null ? mSingersDb.getAllSingers() : s;
         ShowFilteredSingers();
     }
 
     /**
-     * Filters singers and shows filtered list in recycler view
+     * Filters singers and shows filtered list in recycler view.
      */
     private void ShowFilteredSingers() {
-        boundSingers.clear();
-        String q = currentQuery == null ? null : currentQuery.toLowerCase();
-        for (int i = 0; i < allSingers.size(); ++i) {
-            if (q == null || allSingers.get(i).name.toLowerCase().contains(q) || allSingers.get(i).genresAsString().toLowerCase().contains(q)) {
-                boundSingers.add(allSingers.get(i));
+        mBoundSingers.clear();
+        String q = mCurrentQuery == null ? null : mCurrentQuery.toLowerCase();
+        for (int i = 0; i < mAllSingers.size(); ++i) {
+            if (q == null || mAllSingers.get(i).name.toLowerCase().contains(q)
+                    || mAllSingers.get(i).genresAsString().toLowerCase().contains(q)) {
+                mBoundSingers.add(mAllSingers.get(i));
             }
         }
-        adapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
-     * Loads singers data from web, saves it to db and shows it
+     * Loads singers data from web, saves it to db and shows it.
      */
     private void LoadDataIntoDb() {
-        // Use swipeView.post in case LoadDataIntoDb() is called from onCreate()
-        if (boundSingers.size() == 0) {
-            swipeView.post(new Runnable() {
+        // Use mSwipeView.post in case LoadDataIntoDb() is called from onCreate()
+        if (mBoundSingers.size() == 0) {
+            mSwipeView.post(new Runnable() {
                 @Override
                 public void run() {
-                    swipeView.setRefreshing(true);
+                    mSwipeView.setRefreshing(true);
                 }
             });
         }
-        api.getSingers().enqueue(new Callback<List<Singer>>() {
+        mApi.getSingers().enqueue(new Callback<List<Singer>>() {
             @Override
             public void onResponse(Call<List<Singer>> call, final Response<List<Singer>> response) {
                 new Thread() {
                     public void run() {
                         // Add singers to db on background thread
-                        singersDb.deleteAllSingers();
-                        for (Singer s : response.body()) {
-                            singersDb.addSinger(s);
-                        }
+                        mSingersDb.clearAndAdd(response.body());
                         // Show singers data on main thread
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                swipeView.setRefreshing(false);
+                                mSwipeView.setRefreshing(false);
                                 ShowDataFromDb(response.body());
                             }
                         });
@@ -162,14 +165,14 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
             @Override
             public void onFailure(Call<List<Singer>> call, Throwable t) {
                 // Show snackbar with "Retry" button if request failed
-                Snackbar.make(coordinatorLayout, getResources().getString(R.string.network_error), Snackbar.LENGTH_LONG)
+                Snackbar.make(mCoordinatorLayout, getResources().getString(R.string.network_error), Snackbar.LENGTH_LONG)
                         .setAction(getResources().getString(R.string.retry), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 LoadDataIntoDb();
                             }
                         }).show();
-                swipeView.setRefreshing(false);
+                mSwipeView.setRefreshing(false);
             }
         });
     }
@@ -189,7 +192,7 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
     @Override
     public boolean onQueryTextChange(String query) {
         // Store current search query and re-filter items
-        currentQuery = query;
+        mCurrentQuery = query;
         ShowFilteredSingers();
         return false;
     }
@@ -200,9 +203,10 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
     }
 
     /**
-     * RecyclerView adapter class
+     * RecyclerView mAdapter class.
      */
-    public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class SimpleItemRecyclerViewAdapter
+            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<Singer> mValues;
 
@@ -230,13 +234,15 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
             holder.mItem = mValues.get(position);
             holder.mNameView.setText(mValues.get(position).name);
             holder.mGenresView.setText(mValues.get(position).genresAsString());
-            holder.mStatsView.setText(mValues.get(position).statsAsString(SingerListActivity.this.getApplicationContext()));
-            Picasso.with(SingerListActivity.this.getApplicationContext()).load(mValues.get(position).cover.small).into(holder.mImageView);
+            holder.mStatsView.setText(mValues.get(position)
+                    .statsAsString(SingerListActivity.this.getApplicationContext()));
+            Picasso.with(SingerListActivity.this.getApplicationContext())
+                    .load(mValues.get(position).cover.small).into(holder.mImageView);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (twoPane) {
+                    if (mTwoPane) {
                         // Add fragment to the detail pane
                         Bundle arguments = new Bundle();
                         arguments.putLong(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
@@ -251,7 +257,13 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
                         Intent intent = new Intent(context, SingerDetailActivity.class);
                         intent.putExtra(SingerDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                         // Launch activity with cool animation on Lollipop and higher
-                        ActivityCompat.startActivity(SingerListActivity.this, intent, ActivityOptionsCompat.makeSceneTransitionAnimation(SingerListActivity.this).toBundle());
+                        ActivityCompat
+                                .startActivity(
+                                        SingerListActivity.this,
+                                        intent,
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                SingerListActivity.this).toBundle()
+                                );
                     }
                 }
             });
@@ -289,7 +301,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
         private Drawable mDivider;
 
         public DividerItemDecoration(Context context) {
-            final TypedArray styledAttributes = context.obtainStyledAttributes(new int[]{android.R.attr.listDivider});
+            final TypedArray styledAttributes = context
+                    .obtainStyledAttributes(new int[]{android.R.attr.listDivider});
             mDivider = styledAttributes.getDrawable(0);
             styledAttributes.recycle();
         }
@@ -303,7 +316,8 @@ public class SingerListActivity extends AppCompatActivity implements SearchView.
             for (int i = 0; i < childCount; i++) {
                 View child = parent.getChildAt(i);
 
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+                RecyclerView.LayoutParams params
+                        = (RecyclerView.LayoutParams) child.getLayoutParams();
 
                 int top = child.getBottom() + params.bottomMargin;
                 int bottom = top + mDivider.getIntrinsicHeight();

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Top-crop ImageView class
+ * Top-crop ImageView class.
  */
 public class TopCropImageView extends ImageView {
     private Matrix mMatrix;
