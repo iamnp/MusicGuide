@@ -46,7 +46,6 @@ public class SingerListActivity extends AppCompatActivity
     private boolean mTwoPane;
     private Retrofit mRetrofit;
     private YandexSingersApi mApi;
-    private SingersDb mSingersDb;
 
     private RecyclerView mRcyclerView;
     private SwipeRefreshLayout mSwipeView;
@@ -70,8 +69,6 @@ public class SingerListActivity extends AppCompatActivity
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = mRetrofit.create(YandexSingersApi.class);
-
-        mSingersDb = new SingersDb(this);
 
         ((FloatingActionButton) findViewById(R.id.fab)).hide();
 
@@ -111,7 +108,7 @@ public class SingerListActivity extends AppCompatActivity
      * @param s list of singers to populate or null to load it from db.
      */
     private void ShowDataFromDb(List<Singer> s) {
-        mAllSingers = s == null ? mSingersDb.getAllSingers() : s;
+        mAllSingers = s == null ? DbSingleton.get(this).getAllSingers() : s;
         ShowFilteredSingers();
     }
 
@@ -149,7 +146,7 @@ public class SingerListActivity extends AppCompatActivity
                 new Thread() {
                     public void run() {
                         // Add singers to db on background thread
-                        mSingersDb.clearAndAdd(response.body());
+                        DbSingleton.get(SingerListActivity.this).clearAndAdd(response.body());
                         // Show singers data on main thread
                         runOnUiThread(new Runnable() {
                             @Override

@@ -19,6 +19,8 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginStart="20dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -52,17 +54,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:orientation="horizontal"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         >
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/vis_part"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="100dp"
                         android:orientation="horizontal"
                         android:background="@drawable/gradient"
-                        android:layout_weight="3"
                         >
                     </LinearLayout>
 

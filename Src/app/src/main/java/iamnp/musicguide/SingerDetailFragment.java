@@ -23,7 +23,6 @@ public class SingerDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private boolean mUseAppBar;
     private CollapsingToolbarLayout mAppBarLayout;
-    private SingersDb mSingersDb;
     private Singer mCurrentSinger;
 
     public SingerDetailFragment() {
@@ -32,7 +31,6 @@ public class SingerDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSingersDb = new SingersDb(this.getContext());
     }
 
     @Override
@@ -41,7 +39,7 @@ public class SingerDetailFragment extends Fragment {
         // Try to get singer data from db
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             try {
-                mCurrentSinger = mSingersDb.getSinger(getArguments().getLong(ARG_ITEM_ID));
+                mCurrentSinger = DbSingleton.get(getContext()).getSinger(getArguments().getLong(ARG_ITEM_ID));
             } catch (Exception ex) {
                 // No singer data will be shown
             }
