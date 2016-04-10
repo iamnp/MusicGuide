@@ -99,7 +99,9 @@ public class SingerListActivity extends AppCompatActivity
         mRcyclerView.setAdapter(mAdapter);
 
         ShowDataFromDb(null);
-        LoadDataIntoDb();
+        // We don't want to load data on orientation changed
+        if (savedInstanceState == null)
+            LoadDataIntoDb();
     }
 
     /**
