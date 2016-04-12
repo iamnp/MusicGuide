@@ -29,9 +29,9 @@ public class SingerDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        // Set appbar height to 1/3 of the screen height
+        // Set appbar height to 5/12 of the screen height
         AppBarLayout appbar = (AppBarLayout) findViewById(R.id.app_bar);
-        float heightDp = getResources().getDisplayMetrics().heightPixels / 3;
+        float heightDp = getResources().getDisplayMetrics().heightPixels * (5.0f/12.0f);
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
         lp.height = (int) heightDp;
