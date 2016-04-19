@@ -24,6 +24,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBarTitle"
             app:toolbarId="@+id/toolbar">
 
             <RelativeLayout
@@ -43,11 +44,20 @@
                     />
 
                 <View
-                    android:id="@+id/vis_part"
+                    android:id="@+id/top"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="60dp"
+                    android:layout_alignTop="@+id/detail_imageView"
+                    android:background="@drawable/scrim_top"
+                    >
+                </View>
+
+                <View
+                    android:id="@+id/bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
                     android:layout_alignBottom="@+id/detail_imageView"
-                    android:background="@drawable/gradient"
+                    android:background="@drawable/scrim_bottom"
                     >
                 </View>
 
