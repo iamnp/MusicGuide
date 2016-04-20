@@ -1,12 +1,8 @@
 package iamnp.musicguide;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,15 +23,8 @@ public class SingerDetailActivity extends AppCompatActivity {
             getWindow().setEnterTransition(new android.transition.Explode());
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Set appbar height to 5/12 of the screen height
-        AppBarLayout appbar = (AppBarLayout) findViewById(R.id.app_bar);
-        float heightDp = getResources().getDisplayMetrics().heightPixels * (5.0f/12.0f);
-        CoordinatorLayout.LayoutParams lp =
-                (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
-        lp.height = (int) heightDp;
 
         // Show the Up button in the action bar
         ActionBar actionBar = getSupportActionBar();

@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ public class SingerDetailFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
     private boolean mUseAppBar;
-    private CollapsingToolbarLayout mAppBarLayout;
     private Singer mCurrentSinger;
 
     public SingerDetailFragment() {
@@ -50,28 +50,26 @@ public class SingerDetailFragment extends Fragment {
         Activity activity = this.getActivity();
         boolean floatingActionButtonVisible = false;
 
+        // Whether we have appbar or not
+        mUseAppBar = activity instanceof SingerDetailActivity;
+
         if (mCurrentSinger != null) {
-            // Whether we have appbar or not
-            mUseAppBar = activity instanceof SingerDetailActivity;
-
             if (mUseAppBar) {
-                mAppBarLayout = (CollapsingToolbarLayout) activity
-                        .findViewById(R.id.toolbar_layout);
-                mAppBarLayout.setTitle(mCurrentSinger.name);
-                Picasso.with(this.getContext())
-                        .load(mCurrentSinger.cover.big)
-                        .into(((ImageView) mAppBarLayout.findViewById(R.id.detail_imageView)));
-
-                rootView.findViewById(R.id.singer_detail_imageView).setVisibility(View.GONE);
+                // Set appbar title and hide name TextView
+                ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setTitle(mCurrentSinger.name);
+                }
                 rootView.findViewById(R.id.singer_detail_name_textView).setVisibility(View.GONE);
             } else {
-                Picasso.with(this.getContext())
-                        .load(mCurrentSinger.cover.big)
-                        .into((ImageView) rootView.findViewById(R.id.singer_detail_imageView));
+                // Set name TextView text
                 ((TextView) rootView.findViewById(R.id.singer_detail_name_textView))
                         .setText(mCurrentSinger.name);
             }
 
+            Picasso.with(this.getContext())
+                    .load(mCurrentSinger.cover.big)
+                    .into((ImageView) rootView.findViewById(R.id.singer_detail_imageView));
             ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView))
                     .setText(mCurrentSinger.description);
             ((TextView) rootView.findViewById(R.id.singer_detail_genres_textView))
@@ -85,6 +83,7 @@ public class SingerDetailFragment extends Fragment {
         }
 
         FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+        // Show or hide fab depending on presence of singer url
         if (floatingActionButtonVisible) {
             fab.show();
             fab.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +92,10 @@ public class SingerDetailFragment extends Fragment {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mCurrentSinger.link)));
                 }
             });
+            ((MyFloatingActionButton) fab).AnimationEnabled = true;
         } else {
             fab.hide();
+            ((MyFloatingActionButton) fab).AnimationEnabled = false;
         }
 
         return rootView;
