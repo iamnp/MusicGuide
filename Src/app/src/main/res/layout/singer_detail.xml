@@ -7,11 +7,11 @@
     android:orientation="vertical"
     tools:context="iamnp.musicguide.SingerDetailFragment">
 
-    <ImageView
+    <iamnp.musicguide.TopCropImageView
         android:id="@+id/singer_detail_imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="matrix" />
 
     <TextView
         android:id="@+id/singer_detail_name_textView"
