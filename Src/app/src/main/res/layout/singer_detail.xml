@@ -53,6 +53,7 @@
     <TextView
         android:id="@+id/singer_detail_desc_textView"
         style="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/detail_content_padding"
