@@ -10,6 +10,7 @@ import android.view.View;
 /**
  * Implements FloatingActionButton.Behavior so that FloatingActionButton hides on scroll.
  */
+@SuppressWarnings("unused")
 public class FABScrollBehavior extends FloatingActionButton.Behavior {
 
     /**
@@ -25,7 +26,7 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
                                int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target,
                 dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        if (!((MyFloatingActionButton) child).AnimationEnabled)
+        if (!((MyFAB) child).getAnimationEnabled())
             return;
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
             child.hide();

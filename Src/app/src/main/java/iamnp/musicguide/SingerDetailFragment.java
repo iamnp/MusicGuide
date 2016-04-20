@@ -92,10 +92,10 @@ public class SingerDetailFragment extends Fragment {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mCurrentSinger.link)));
                 }
             });
-            ((MyFloatingActionButton) fab).AnimationEnabled = true;
+            ((MyFAB) fab).setAnimationEnabled(true);
         } else {
             fab.hide();
-            ((MyFloatingActionButton) fab).AnimationEnabled = false;
+            ((MyFAB) fab).setAnimationEnabled(false);
         }
 
         return rootView;

@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/singer_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="iamnp.musicguide.SingerDetailFragment" >
+    tools:context="iamnp.musicguide.SingerDetailFragment">
 
     <ImageView
+        android:id="@+id/singer_detail_imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:id="@+id/singer_detail_imageView" />
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/singer_detail_name_textView"
         style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/detail_content_padding"
         android:paddingRight="@dimen/detail_content_padding"
-        android:paddingTop="@dimen/detail_content_padding"
-        android:id="@+id/singer_detail_name_textView" />
+        android:paddingTop="@dimen/detail_content_padding" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/singer_detail_genres_textView"
         style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/detail_content_padding"
         android:paddingRight="@dimen/detail_content_padding"
-        android:paddingTop="16dp"
-        android:id="@+id/singer_detail_genres_textView" />
+        android:paddingTop="16dp" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/singer_detail_stats_textView"
         style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/detail_content_padding"
         android:paddingRight="@dimen/detail_content_padding"
-        android:paddingTop="16dp"
-        android:id="@+id/singer_detail_stats_textView" />
+        android:paddingTop="16dp" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/singer_detail_biography_textView"
         style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/biography"
         android:paddingLeft="@dimen/detail_content_padding"
         android:paddingRight="@dimen/detail_content_padding"
         android:paddingTop="16dp"
-        android:id="@+id/singer_detail_biography_textView" />
+        android:text="@string/biography" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/singer_detail_desc_textView"
         style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/detail_content_padding"
         android:paddingRight="@dimen/detail_content_padding"
-        android:paddingTop="16dp"
-        android:id="@+id/singer_detail_desc_textView" />
+        android:paddingTop="16dp" />
 
 </LinearLayout>

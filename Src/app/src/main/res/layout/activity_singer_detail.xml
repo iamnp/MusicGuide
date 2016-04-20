@@ -28,7 +28,7 @@
         android:background="@android:color/transparent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <iamnp.musicguide.MyFloatingActionButton
+    <iamnp.musicguide.MyFAB
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_public_white_24dp"
         app:layout_anchor="@id/singer_detail_container"
-        app:layout_behavior="iamnp.musicguide.FABScrollBehavior"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="iamnp.musicguide.FABScrollBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>
