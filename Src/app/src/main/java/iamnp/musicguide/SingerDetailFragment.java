@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -67,9 +68,13 @@ public class SingerDetailFragment extends Fragment {
                         .setText(mCurrentSinger.name);
             }
 
-            Picasso.with(this.getContext())
-                    .load(mCurrentSinger.cover.big)
-                    .into((ImageView) rootView.findViewById(R.id.singer_detail_imageView));
+            // Set imageView height to 5/12 of the screen height
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.singer_detail_imageView);
+            float heightDp = getResources().getDisplayMetrics().heightPixels * (5.0f/12.0f);
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+            lp.height = (int) heightDp;
+
+            Picasso.with(this.getContext()).load(mCurrentSinger.cover.big).into(imageView);
             ((TextView) rootView.findViewById(R.id.singer_detail_desc_textView))
                     .setText(mCurrentSinger.description);
             ((TextView) rootView.findViewById(R.id.singer_detail_genres_textView))
