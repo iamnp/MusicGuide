@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Music Guide</string>
     <string name="title_singer_detail">Music Guide</string>
-    <string name="album">albums</string>
+    <string name="album">album</string>
     <string name="albums1">albums</string>
     <string name="albums2">albums</string>
-    <string name="song">songs</string>
+    <string name="song">song</string>
     <string name="songs1">songs</string>
     <string name="songs2">songs</string>
     <string name="action_search">Search</string>
     <string name="biography">Biography</string>
     <string name="network_error">Network error</string>
     <string name="retry">Retry</string>
-    <string name="stats_separator">•</string>
-    <string name="yandex_api_url">http://cache-default06h.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/</string>
+    <string name="stats_separator" translatable="false">•</string>
+    <string name="yandex_api_url" translatable="false">http://cache-default06h.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/</string>
 </resources>

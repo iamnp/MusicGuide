@@ -70,7 +70,7 @@ public class SingerDetailFragment extends Fragment {
 
             // Set imageView height to 5/12 of the screen height
             ImageView imageView = (ImageView) rootView.findViewById(R.id.singer_detail_imageView);
-            float heightDp = getResources().getDisplayMetrics().heightPixels * (5.0f/12.0f);
+            float heightDp = getResources().getDisplayMetrics().heightPixels * (5.0f / 12.0f);
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) imageView.getLayoutParams();
             lp.height = (int) heightDp;
 

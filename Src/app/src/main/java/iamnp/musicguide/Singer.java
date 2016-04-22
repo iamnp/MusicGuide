@@ -32,22 +32,7 @@ public class Singer {
      * @return Stats as a string separated by bold dot.
      */
     public String statsAsString(Context ctx) {
-        String alb = albums + " " + (
-                (albums >= 5 && albums <= 20) || albums % 10 >= 5
-                        ? ctx.getString(R.string.albums2)
-                        : (albums % 10 == 1
-                        ? ctx.getString(R.string.album)
-                        : ctx.getString(R.string.albums1))
-        );
-        String tra = tracks + " " + (
-                (tracks >= 5 && tracks <= 20) || tracks % 10 >= 5
-                        ? ctx.getString(R.string.songs2)
-                        : (tracks % 10 == 1
-                        ? ctx.getString(R.string.song)
-                        : ctx.getString(R.string.songs1))
-        );
-
-        return alb + "  " + ctx.getString(R.string.stats_separator) + "  " + tra;
+        return StatsResolver.Resolve(albums, tracks, ctx.getResources());
     }
 
     public static class Cover {
