@@ -15,6 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-ignorewarnings
+-keep class android.support.v7.** { *; }
+-keep class iamnp.** { *; }
+
+# Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Signature
