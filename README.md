@@ -11,6 +11,13 @@ Music Guide uses a number of open source projects to work properly:
 * [Espresso] - Android UI testing framework
 * [Hamcrest] - a framework for writing matcher objects for testing
 
+### Screenshots
+
+<img src="Docs/screenshot1.png" width="350">
+<img src="Docs/screenshot2.png" width="350">
+</br>
+<img src="Docs/screenshot3.png" width="800">
+
 [Retrofit]: <http://square.github.io/retrofit/>
 [Picasso]: <http://square.github.io/picasso/>
 [Espresso]: <https://google.github.io/android-testing-support-library/docs/espresso/index.html>
