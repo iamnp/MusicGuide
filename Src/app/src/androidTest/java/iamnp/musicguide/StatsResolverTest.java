@@ -89,6 +89,7 @@ public class StatsResolverTest {
     private Resources getResources(Locale locale) {
         Configuration confTmp = new Configuration(mMockContext.getResources().getConfiguration());
         confTmp.locale = locale;
+        // Not retrieving DisplayMetrics because we don't need it in this test
         return new Resources(mMockContext.getAssets(), new DisplayMetrics(), confTmp);
     }
 }
