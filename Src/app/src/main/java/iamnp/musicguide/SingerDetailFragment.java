@@ -89,7 +89,7 @@ public class SingerDetailFragment extends Fragment {
 
         FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
         // Show or hide fab depending on presence of singer url
-        if (floatingActionButtonVisible) {
+        if (floatingActionButtonVisible && activity.findViewById(R.id.singer_detail_container) != null) {
             fab.show();
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
