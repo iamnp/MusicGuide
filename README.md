@@ -1,5 +1,6 @@
-# MusicGuide
+# Music Guide
 Music Guide is an Android application that shows information about popular singers.
+It was developed as a part of an entrance test to attend Yandex School Of Mobile Development (2016).
 
 ### Tech
 
